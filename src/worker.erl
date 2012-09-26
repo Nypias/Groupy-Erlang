@@ -9,7 +9,7 @@ start(Id, Module, Rnd, Sleep) ->
     spawn(fun() -> init(Id, Module, Rnd, Sleep) end).
 
 init(Id, Module, Rnd, Sleep) ->
-    {ok, Cast} = apply(Module, start, [Id]),
+    Cast = apply(Module, start, [Id]),
     Color = ?color,
     init_cont(Id, Rnd, Cast, Color, Sleep).
 
@@ -17,7 +17,7 @@ start(Id, Module, Rnd, Peer, Sleep) ->
     spawn(fun() -> init(Id, Module, Rnd, Peer, Sleep) end).
 
 init(Id, Module, Rnd, Peer, Sleep) ->
-    {ok, Cast} = apply(Module, start, [Id, Peer]),
+    Cast = apply(Module, start, [Id, Peer]),
     {ok, Color} = join(Id, Cast),
     init_cont(Id, Rnd, Cast, Color, Sleep).
 

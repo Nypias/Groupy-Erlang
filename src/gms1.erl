@@ -30,7 +30,7 @@ slave(Id, Master, Leader, Slaves, Group) ->
 	    Leader ! {join, Wrk, Peer},
 	    slave(Id, Master, Leader, Slaves, Group);
 	{msg, Msg} ->
-	    Master ! {deliver, Msg},
+	    Master ! Msg,
 	    slave(Id, Master, Leader, Slaves, Group);
 	{view, [Leader|Slaves2], Group2} ->
 	    Master ! {view, Group2},
@@ -46,7 +46,7 @@ leader(Id, Master, Slaves, Group) ->
     receive
 	{mcast, Msg} ->
 	    bcast(Id, {msg, Msg}, Slaves),
-	    Master ! {deliver, Msg},
+	    Master ! Msg,
 	    leader(Id, Master, Slaves, Group);
 	{join, Wrk, Peer} ->
 	    Slaves2 = lists:append(Slaves, [Peer]),
